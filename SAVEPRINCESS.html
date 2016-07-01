@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bot can save Princess</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+        <link rel="stylesheet" href="main.css">
+        
+<script id="script1" type="text/javascript">
+  var imageObj = new Image();
+  var imageObj2 = new Image();
+
+//      imageObj.onload = function() {
+//        context.drawImage(imageObj, 69, 50);
+//      };
+      imageObj.src = 'princess.jpg';
+      imageObj2.src = 'Robot-walking.jpg';
+var Princess = function() {
+    this.x = 0;
+    this.y = 0;
+    this.width = 100;
+    this.height = 100;
+    
+
+    
+    this.draw = function(context) {
+       
+         context.drawImage(imageObj, 200, 200);  
+    }
+}
+var Robot = function() {
+    this.x = 100;
+    this.y = 100;
+    this.width = 100;
+    this.height = 100;
+    
+    this.moveUp = function () {
+        if (this.y >=100) {
+            this.y -= 100;
+        }
+    }
+    this.moveDown = function () {
+        if (this.y <=100) {
+            this.y += 100;
+        }
+    }
+    this.moveLeft = function () {
+        if (this.x >=100) {
+            this.x -= 100;
+        }
+    }
+    this.moveRight = function () {
+        if (this.x <=100) {
+            this.x += 100;
+        }
+    }
+    
+   
+
+    
+    this.draw = function(context) {
+           context.drawImage(imageObj2, this.x, this.y);   
+    }
+}
+var Board = function() {
+    this.x = 0;
+    this.y = 0;
+    this.width = 300;
+    this.height = 300;
+    this.princess = new Princess();
+    this.robot = new Robot();
+    this.draw = function (context) {
+        context.fillStyle = "#FFFF00";
+        context.fillRect(0,0,300,300);
+        context.moveTo(100,0);
+        context.lineTo(100,300);
+        context.moveTo(200,0);
+        context.lineTo(200,300);
+        context.moveTo(0,100);
+        context.lineTo(300,100);
+        context.moveTo(0,200);
+        context.lineTo(300,200);
+        context.stroke();
+        this.princess.draw(context);
+        this.robot.draw(context);
+               
+       
+    }
+    
+}
+var board = new Board();
+function update()
+    {
+        
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        requestAnimationFrame(update);
+        board.draw(ctx);
+    }
+function onKeyPressed(evt)    {
+    if(evt.key=='w')
+        {
+            board.robot.moveUp();
+            //board.robot.y-=100;
+        }
+        if(evt.key=='a')
+        {
+            board.robot.moveLeft();
+            //board.robot.x-=100;
+        }
+        if(evt.key=='d')
+        {
+            board.robot.moveRight();
+            //board.robot.x+=100;
+        }
+        if(evt.key=='s')
+        {
+            board.robot.moveDown();
+            //board.robot.y+=100;
+        }
+        console.log(evt);
+    }
+document.addEventListener("keypress", onKeyPressed);
+</script>
+        
+    </head>
+    <body onload="update()">
+        
+
+<canvas id="myCanvas" width="300" height="300" style="border:1px solid #000000;">
+</canvas>
+
+</body>
+</html>
