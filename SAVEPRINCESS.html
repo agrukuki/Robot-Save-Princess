@@ -17,17 +17,37 @@
 //      };
       imageObj.src = 'princess.jpg';
       imageObj2.src = 'Robot-walking.jpg';
+    
 var Princess = function() {
     this.x = 0;
     this.y = 0;
     this.width = 100;
     this.height = 100;
-    
+        this.moveUp = function () {
+        if (this.y >=100) {
+            this.y -= 100;
+        }
+    }
+    this.moveDown = function () {
+        if (this.y <=600) {
+            this.y += 100;
+        }
+    }
+    this.moveLeft = function () {
+        if (this.x >=100) {
+            this.x -= 100;
+        }
+    }
+    this.moveRight = function () {
+        if (this.x <=600) {
+            this.x += 100;
+        }
+    }
 
     
     this.draw = function(context) {
        
-         context.drawImage(imageObj, 200, 200);  
+         context.drawImage(imageObj, this.x, this.y);  
     }
 }
 var Robot = function() {
@@ -42,7 +62,7 @@ var Robot = function() {
         }
     }
     this.moveDown = function () {
-        if (this.y <=100) {
+        if (this.y <=600) {
             this.y += 100;
         }
     }
@@ -52,7 +72,7 @@ var Robot = function() {
         }
     }
     this.moveRight = function () {
-        if (this.x <=100) {
+        if (this.x <=600) {
             this.x += 100;
         }
     }
@@ -67,21 +87,21 @@ var Robot = function() {
 var Board = function() {
     this.x = 0;
     this.y = 0;
-    this.width = 300;
-    this.height = 300;
+    this.width = 800;
+    this.height = 800;
     this.princess = new Princess();
     this.robot = new Robot();
     this.draw = function (context) {
         context.fillStyle = "#FFFF00";
-        context.fillRect(0,0,300,300);
-        context.moveTo(100,0);
-        context.lineTo(100,300);
-        context.moveTo(200,0);
-        context.lineTo(200,300);
-        context.moveTo(0,100);
-        context.lineTo(300,100);
-        context.moveTo(0,200);
-        context.lineTo(300,200);
+        context.fillRect(0,0,800,800);
+        for (var i = 0;i < this.width;i += 100) {
+            context.moveTo(100 + i,0);
+            context.lineTo(100 + i, this.height);
+        }
+        for (var j = 0;j < this.height;j += 100) {
+            context.moveTo(0,100 + j);
+            context.lineTo(this.width, 100 + j); 
+        }
         context.stroke();
         this.princess.draw(context);
         this.robot.draw(context);
@@ -105,21 +125,33 @@ function onKeyPressed(evt)    {
             board.robot.moveUp();
             //board.robot.y-=100;
         }
-        if(evt.key=='a')
+    if(evt.key=='a')
         {
             board.robot.moveLeft();
             //board.robot.x-=100;
         }
-        if(evt.key=='d')
+    if(evt.key=='d')
         {
             board.robot.moveRight();
             //board.robot.x+=100;
         }
-        if(evt.key=='s')
+    if(evt.key=='s')
         {
             board.robot.moveDown();
             //board.robot.y+=100;
         }
+    if (evt.key =='8') {
+        board.princess.moveUp();
+    }
+    if (evt.key =='5') {
+        board.princess.moveDown();
+    }
+    if (evt.key =='4') {
+        board.princess.moveLeft();
+    }
+    if (evt.key =='6') {
+        board.princess.moveRight();
+    }
         console.log(evt);
     }
 document.addEventListener("keypress", onKeyPressed);
@@ -129,7 +161,7 @@ document.addEventListener("keypress", onKeyPressed);
     <body onload="update()">
         
 
-<canvas id="myCanvas" width="300" height="300" style="border:1px solid #000000;">
+<canvas id="myCanvas" width="800" height="800" style="border:1px solid #000000;">
 </canvas>
 
 </body>
