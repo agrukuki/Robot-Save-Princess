@@ -11,27 +11,82 @@
 <script id="script1" type="text/javascript">
   var imageObj = new Image();
   var imageObj2 = new Image();
-    var imageObj3 = new Image();
-
-//      imageObj.onload = function() {
-//        context.drawImage(imageObj, 69, 50);
-//      };
+  var imageObj3 = new Image();
+  var imgMonster = new Image();
+ 
+    
       imageObj.src = 'princess.jpg';
       imageObj2.src = 'Robot-walking.jpg';
       imageObj3.src = 'rsz_11wall.png';
-      var wallX = [0,100,200,300,400,600,600,600,600,600,600,600,100,200,300,400,800,800,800,800,800,800,800,800,800,100,200,300,400,500,100,200,300,400,500,600];
-      var wallY = [300,300,300,300,300,0,100,200,300,400,500,600,100,100,100,100,100,200,300,400,500,600,700,800,900,600,600,600,600,600,800,800,800,800,800,800];
+      imgMonster.src = 'slime.png';
+      var wallX = [0,100,200,300,400,500,600,700,800,900,1000,0,0,0,0,0,0,0,0,0,0,0,0,100,200,300,400,500,600,700,800,900,1000,900,900,900,900,900,900,900,900,900,900,400,600,200,400,600,700,800,300,300,300,300,300,300];
+      var wallY = [0,0,0,0,0,0,0,0,0,0,0,0,100,200,300,400,500,600,700,800,900,900,900,900,900,900,900,900,900,900,900,100,200,300,400,500,600,700,800,900,200,500,500,500,200,400,300,200,300,600,0,100,200,300,400,500];
+    var frame= 0;
+    var Monster = function(x,y) {
+        this.x = x;
+        this.y = y;
+       
+        this.move = function() {
+           var dir = Math.round(Math.random()*10)%4;
+            if(dir===0)
+                {
+                    this.moveUp();
+                }
+            if(dir===1)
+                {
+                    this.moveDown();
+                }
+            if(dir===2)
+                {
+                    this.moveLeft();
+                }
+            if(dir===3)
+                {
+                    this.moveRight();
+                }
+           
+        }
+        this.moveUp = function () {
+            if (this.y >=100&& !isWall(this.x,this.y-100)) {
+                this.y -= 100;
+            }
+        }
+        this.moveDown = function () {
+            if (this.y <=board.height - 200&& !isWall(this.x,this.y+100)) {
+                this.y += 100;
+            }
+        }
+        this.moveLeft = function () {
+            if (this.x >=100&& !isWall(this.x-100,this.y)) {
+                this.x -= 100;
+            }
+        }
+        this.moveRight = function () {
+            if (this.x <=board.width - 200 && !isWall(this.x+100,this.y)) {
+                this.x += 100;
+            }
+        } 
+        this.draw = function (context) {
+            
+            context.drawImage(imgMonster,this.x,this.y);
+        }
+    }
 function isWall(x,y){
+   
+    
     for (var i = 0;i < wallX.length;i++) {
-        if(x==wallX[i] && y==wallY[i]) {
+        if(x==wallX[i] && y==wallY[i] ) {
                 return true;
             }
+        
     }
     return false;
 }
 var Wall = function () {
     this.draw = function (context) {
-        for (var i = 0;i < wallX.length;i++) {
+
+        
+                for (var i = 0;i < wallX.length;i++) {
             
                 context.drawImage(imageObj3,wallX[i],wallY[i]);
            
@@ -39,8 +94,8 @@ var Wall = function () {
     }
 }
 var Princess = function() {
-    this.x = 0;
-    this.y = 0;
+    this.x = 100;
+    this.y = 100;
     this.width = 100;
     this.height = 100;
         this.moveUp = function () {
@@ -71,14 +126,18 @@ var Princess = function() {
     }
 }
 var Robot = function() {
-    this.x = 900;
-    this.y = 900;
+    this.x = 800;
+    this.y = 800;
     this.width = 100;
     this.height = 100;       
             this.moveUp = function () {
+               console.log("tttt:"+this.y);
                 if (this.y >=100&& !isWall(this.x,this.y-100)) {
+                     
                     this.y -= 100;
+                     console.log("UPPPP:"+this.y);
                 }
+                 console.log("PPPPPU");
             }
             this.moveDown = function () {
                 if (this.y <=board.height - 200&& !isWall(this.x,this.y+100)) {
@@ -128,20 +187,36 @@ var Board = function() {
 }
 var board = new Board();
 var wall = new Wall();
+var monster = new Monster(500,700);
+var monster2 = new Monster(400,800);
+var monster3 = new Monster(700,400);
+var monster4 = new Monster(200,200);
+var monster5 = new Monster(600,300);
+setInterval(function(){
+   monster.move();
+   monster2.move();
+   monster3.move();
+   monster4.move();
+   monster5.move();
+}, 1000);
 function update()
     {
-        
+       
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
        
+        
         board.draw(ctx);
         wall.draw(ctx);
+        monster.draw(ctx);
+        monster2.draw(ctx);
+        monster3.draw(ctx);
+        monster4.draw(ctx);
+        monster5.draw(ctx);
         requestAnimationFrame(update);
     }
 function onKeyPressed(evt)    {
-//    if (board.princess.x === board.robot.x&& board.princess.y ===  board.robot.y) {
-//        return;
-//    }
+
     if(evt.key=='w')
         {
             board.robot.moveUp();
@@ -187,4 +262,4 @@ document.addEventListener("keypress", onKeyPressed);
 </canvas>
 
 </body>
-</html>                                                                                                                                                                                      
+</html>                                                                                                                                                                                                                                                  
