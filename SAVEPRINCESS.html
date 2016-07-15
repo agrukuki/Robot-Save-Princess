@@ -20,7 +20,7 @@
       imageObj3.src = 'rsz_11wall.png';
       imgMonster.src = 'slime.png';
       var wallX = [0,100,200,300,400,500,600,700,800,900,1000,0,0,0,0,0,0,0,0,0,0,0,0,100,200,300,400,500,600,700,800,900,1000,900,900,900,900,900,900,900,900,900,900,400,600,200,400,600,700,800,300,300,300,300,300,300];
-      var wallY = [0,0,0,0,0,0,0,0,0,0,0,0,100,200,300,400,500,600,700,800,900,900,900,900,900,900,900,900,900,900,900,100,200,300,400,500,600,700,800,900,200,500,500,500,200,400,300,200,300,600,0,100,200,300,400,500];
+      var wallY = [0,0,0,0,0,0,0,0,0,0,0,0,100,200,300,400,500,600,700,800,900,900,900,900,900,900,900,900,900,900,900,100,200,300,400,500,600,700,800,900,200,500,500,500,200,400,300,200,300,600,0,200,300,400,500];
     var frame= 0;
     var Monster = function(x,y) {
         this.x = x;
@@ -184,7 +184,7 @@ var Board = function() {
        
     }
     
-}
+} 
 var board = new Board();
 var wall = new Wall();
 var monster = new Monster(500,700);
@@ -199,6 +199,15 @@ setInterval(function(){
    monster4.move();
    monster5.move();
 }, 1000);
+function resetGame()
+    {
+        board.robot.x=800;
+        board.robot.y=800;
+        var div = document.getElementById('Status');
+        div.innerHTML="Game Running...";
+        update();
+        
+    }
 function update()
     {
        
@@ -213,6 +222,15 @@ function update()
         monster3.draw(ctx);
         monster4.draw(ctx);
         monster5.draw(ctx);
+        if (board.robot.x === board.princess.x && board.robot.y === board.princess.y) {
+        var div = document.getElementById('Status');
+        div.innerHTML="WIN! <button onclick='resetGame();'>Reset</button>";
+        return;
+        } else  if (board.robot.x === monster.x && board.robot.y === monster.y||board.robot.x === monster2.x&&board.robot.y === monster2.y||board.robot.x === monster3.x&&board.robot.y === monster3.y||board.robot.x === monster4.x&&board.robot.y === monster4.y||board.robot.x === monster5.x&&board.robot.y === monster5.y){
+        var div = document.getElementById('Status');
+        div.innerHTML="Loooose! <button onclick='resetGame();'>Reset</button>";
+            return;
+        }
         requestAnimationFrame(update);
     }
 function onKeyPressed(evt)    {
@@ -257,9 +275,11 @@ document.addEventListener("keypress", onKeyPressed);
     </head>
     <body onload="update()">
         
-
+<span>
 <canvas id="myCanvas" width="1000" height="1000" style="border:1px solid #000000;">
 </canvas>
-
+<div id="Status" style="display:inline;font-size:30px;color:red">Game Running...</div>
+    
+</span>
 </body>
 </html>                                                                                                                                                                                                                                                  
