@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
     
     <head>
@@ -199,6 +198,9 @@ setInterval(function(){
    monster4.move();
    monster5.move();
 }, 1000);
+var StartButton = function() {
+
+}
 function resetGame()
     {
         board.robot.x=800;
@@ -208,20 +210,19 @@ function resetGame()
         update();
         
     }
+
 function update()
     {
-       
+
         var c = document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
-       
-        
-        board.draw(ctx);
-        wall.draw(ctx);
-        monster.draw(ctx);
-        monster2.draw(ctx);
-        monster3.draw(ctx);
-        monster4.draw(ctx);
-        monster5.draw(ctx);
+           board.draw(ctx);
+    wall.draw(ctx);
+    monster.draw(ctx);
+    monster2.draw(ctx);
+    monster3.draw(ctx);
+    monster4.draw(ctx);
+    monster5.draw(ctx);
         if (board.robot.x === board.princess.x && board.robot.y === board.princess.y) {
         var div = document.getElementById('Status');
         div.innerHTML="WIN! <button onclick='resetGame();'>Reset</button>";
@@ -278,8 +279,8 @@ document.addEventListener("keypress", onKeyPressed);
 <span>
 <canvas id="myCanvas" width="1000" height="1000" style="border:1px solid #000000;">
 </canvas>
-<div id="Status" style="display:inline;font-size:30px;color:red">Game Running...</div>
-    
+<div id="Status" style="display:inline;font-size:50px;color:red">Game Running...</div>
+<div id="startButton" style="display:inline;font-size:40px;color:green"></div>
 </span>
 </body>
 </html>                                                                                                                                                                                                                                                  
