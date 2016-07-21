@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
     
     <head>
@@ -184,6 +185,11 @@ var Board = function() {
     }
     
 } 
+var moveSound = function () {
+    var audio = new Audio('Flappy.mp3');
+    audio.play();
+}
+
 var board = new Board();
 var wall = new Wall();
 var monster = new Monster(500,700);
@@ -198,9 +204,7 @@ setInterval(function(){
    monster4.move();
    monster5.move();
 }, 1000);
-var StartButton = function() {
 
-}
 function resetGame()
     {
         board.robot.x=800;
@@ -225,10 +229,14 @@ function update()
     monster5.draw(ctx);
         if (board.robot.x === board.princess.x && board.robot.y === board.princess.y) {
         var div = document.getElementById('Status');
+        var win = new Audio('Win.mp3');
+        win.play();
         div.innerHTML="WIN! <button onclick='resetGame();'>Reset</button>";
         return;
         } else  if (board.robot.x === monster.x && board.robot.y === monster.y||board.robot.x === monster2.x&&board.robot.y === monster2.y||board.robot.x === monster3.x&&board.robot.y === monster3.y||board.robot.x === monster4.x&&board.robot.y === monster4.y||board.robot.x === monster5.x&&board.robot.y === monster5.y){
         var div = document.getElementById('Status');
+        var lose = new Audio('Lose.mp3');
+        lose.play();
         div.innerHTML="Loooose! <button onclick='resetGame();'>Reset</button>";
             return;
         }
@@ -240,33 +248,41 @@ function onKeyPressed(evt)    {
         {
             board.robot.moveUp();
             //board.robot.y-=100;
+            moveSound();
         }
     if(evt.key=='a')
         {
             board.robot.moveLeft();
             //board.robot.x-=100;
+            moveSound();
         }
     if(evt.key=='d')
         {
             board.robot.moveRight();
             //board.robot.x+=100;
+            moveSound();
         }
     if(evt.key=='s')
         {
             board.robot.moveDown();
             //board.robot.y+=100;
+            moveSound();
         }
     if (evt.key =='8') {
         board.princess.moveUp();
+        moveSound();
     }
     if (evt.key =='5') {
         board.princess.moveDown();
+        moveSound();
     }
     if (evt.key =='4') {
         board.princess.moveLeft();
+        moveSound();
     }
     if (evt.key =='6') {
         board.princess.moveRight();
+        moveSound();
     }
         console.log(evt);
     }
